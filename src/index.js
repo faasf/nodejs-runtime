@@ -39,10 +39,6 @@ const upload = multer();
 const totalWorkers = process.env.NODE_WORKERS ?? os.cpus().length;
 
 if (cluster.isMaster) {
-    app.get('/', (req, res) => {
-        return res.status(200).send({ status: 'UP' });
-    });
-
     let executingFunctions = [];
     logger.emit('log', { level: 'info', message: `Runtime started with '${totalWorkers}' workers.` });
 
@@ -153,6 +149,10 @@ if (cluster.isMaster) {
 
         return functionPath;
     };
+
+    app.get('/', (req, res) => {
+        return res.status(200).send({ status: 'UP' });
+    });
 
     app.post('/test', upload.any(), async (req, res) => {
         const id = crypto.randomUUID();
