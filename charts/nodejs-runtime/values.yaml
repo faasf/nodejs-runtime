@@ -5,11 +5,11 @@
 ###
 appPort: 80
 
-fluentdHost: ""
+fluentdHost: "localhost"
 fluentdPort: 24224
 fluentdTimeout: 3000
 
-functionsApiServiceUrl: ""
+functionsApiServiceUrl: "test"
 ###
 
 replicaCount: 1

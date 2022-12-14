@@ -35,15 +35,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           - name: APPLICATION_PORT
-            value: {{ .Values.appPort }}
+            value: {{ .Values.appPort | quote }}
           - name: FLUENTD_HOST
-            value: {{ .Values.fluentdHost }}
+            value: {{ .Values.fluentdHost | quote }}
           - name: FLUENTD_PORT
-            value: {{ .Values.fluentdPort }}
+            value: {{ .Values.fluentdPort | quote }}
           - name: FLUENTD_TIMEOUT
-            value: {{ .Values.fluentdTimeout }}
+            value: {{ .Values.fluentdTimeout | quote }}
           - name: FUNCTIONS_API_SERVICE_URL
-            value: {{ .Values.functionsApiServiceUrl }}
+            value: {{ .Values.functionsApiServiceUrl | quote }}
           ports:
             - name: http
               containerPort: 80

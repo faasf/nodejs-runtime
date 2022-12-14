@@ -39,6 +39,18 @@ const upload = multer();
 const totalWorkers = process.env.NODE_WORKERS ?? os.cpus().length;
 
 if (cluster.isMaster) {
+    app.get('/ready', (req, res) => {
+        return res.status(200).send({ status: 'UP' });
+    });
+
+    app.get('/live', (req, res) => {
+        return res.status(200).send({ status: 'UP' });
+    });
+
+    app.get('/health', (req, res) => {
+        return res.status(200).send({ status: 'UP' });
+    });
+
     let executingFunctions = [];
     logger.emit('log', { level: 'info', message: `Runtime started with '${totalWorkers}' workers.` });
 
