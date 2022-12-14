@@ -21,7 +21,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "faas-nodejs-runtime"
 
 serviceAccount:
   # Specifies whether a service account should be created
