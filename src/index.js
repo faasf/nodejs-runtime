@@ -17,6 +17,9 @@ const { app: { port }, fluentd, service: { functionsApiServiceUrl } } = require(
 const { setLogger } = require('@faasff/nodejs-common');
 
 const logger = new FluentClient('nodejs-runtime', {
+    onSocketError: (err) => {
+        console.log("Fluentd error", err)
+    },
     socket: {
         host: fluentd.host,
         port: fluentd.port,
