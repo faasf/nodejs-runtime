@@ -36,7 +36,7 @@ if (fluentd.enabled) {
         emit: (name, data) => {
             client.index({
                 index: es.logsIndexName,
-                document: {
+                body: {
                     '@log_name': `nodejs-runtime.${name}`,
                     ...data,
                 }
