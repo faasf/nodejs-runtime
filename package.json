@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@dapr/dapr": "^2.5.0",
+    "@elastic/elasticsearch": "^7.17.0",
     "@faasff/nodejs-common": "^0.2.1",
     "@fluent-org/logger": "^1.0.10",
     "async-lock": "^1.3.2",

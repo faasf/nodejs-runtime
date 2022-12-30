@@ -10,23 +10,40 @@ const multer = require('multer');
 const AsyncLock = require('async-lock');
 const ts = require('typescript');
 const FluentClient = require('@fluent-org/logger').FluentClient;
+const { Client } = require('@elastic/elasticsearch');
 
 const { getFunctionFilePathDefault, getFunctionFilePath, getFunctionMetadataFilePath, getFunctionFolder, fileExists, JS_FUNCTION_FILE, TS_FUNCTION_FILE } = require('./helpers');
 const { transformError } = require('./helpers');
-const { app: { port }, fluentd, service: { functionsApiServiceUrl } } = require('./config');
+const { app: { port }, fluentd, service: { functionsApiServiceUrl }, es } = require('./config');
 const { setLogger } = require('@faasff/nodejs-common');
 
-const logger = new FluentClient('nodejs-runtime', {
-    socket: {
-        host: fluentd.host,
-        port: fluentd.port,
-        timeout: fluentd.timeout,
-    }
-});
+let logger;
+if (fluentd.enabled) {
+    logger = new FluentClient('nodejs-runtime', {
+        socket: {
+            host: fluentd.host,
+            port: fluentd.port,
+            timeout: fluentd.timeout,
+        }
+    });
+} else {
 
-logger.socketOn('error', (err) => {
-    console.log("Fluentd error", err)
-});
+    const client = new Client({
+        node: `http://${es.host}:${es.port}`,
+    });
+
+    logger = {
+        emit: (name, data) => {
+            client.index({
+                index: es.logsIndexName,
+                document: {
+                    '@log_name': `nodejs-runtime.${name}`,
+                    ...data,
+                }
+            }).then();
+        }
+    };
+}
 
 const lock = new AsyncLock();
 const app = express();
