@@ -177,7 +177,7 @@ if (cluster.isMaster) {
         return res.status(200).send({ status: 'UP' });
     });
 
-    app.post('/test', upload.any(), async (req, res) => {
+    app.post('/call', upload.any(), async (req, res) => {
         const id = crypto.randomUUID();
 
         logger.emit('log', { level: 'debug', executionId: id, message: `Http trigger started` });
