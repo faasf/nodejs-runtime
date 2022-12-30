@@ -38,6 +38,7 @@ if (fluentd.enabled) {
                 index: es.logsIndexName,
                 body: {
                     '@log_name': `nodejs-runtime.${name}`,
+                    '@timestamp': new Date(),
                     ...data,
                 }
             }).then();
